@@ -381,13 +381,17 @@ int main(int argc, char *argv[]) {
 
 	strcpy(text, "GEEKSFORGEEKS$");
 	buildSuffixTree();
-	printf("Text: GEEKSFORGEEKS, Pattern to search: GEEKS");
+	
+    printf("Text: GEEKSFORGEEKS, Pattern to search: GEEKS");
 	checkForSubString("GEEKS");
-	printf("\n\nText: GEEKSFORGEEKS, Pattern to search: GEEK1");
+	
+    printf("\n\nText: GEEKSFORGEEKS, Pattern to search: GEEK1");
 	checkForSubString("GEEK1");
-	printf("\n\nText: GEEKSFORGEEKS, Pattern to search: FOR");
+	
+    printf("\n\nText: GEEKSFORGEEKS, Pattern to search: FOR");
 	checkForSubString("FOR");
-	//Free the dynamically allocated memory
+	
+    //Free the dynamically allocated memory
 	freeSuffixTreeByPostOrder(root);
 
 	return 0;
