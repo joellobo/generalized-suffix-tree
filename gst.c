@@ -1,10 +1,17 @@
-// A C program to implement Ukkonen's Suffix Tree Construction
-// And then build generalized suffix tree
+/* 
+A C program to implement Ukkonen's Suffix Tree Construction
+And then build generalized suffix tree
+*/
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+
 #define MAX_CHAR 256
 
+/*
+xxx
+ */
 struct SuffixTreeNode {
 	struct SuffixTreeNode *children[MAX_CHAR];
 
@@ -31,23 +38,26 @@ typedef struct SuffixTreeNode Node;
 char text[100]; //Input string
 Node *root = NULL; //Pointer to root node
 
-/*lastNewNode will point to newly created internal node,
+/*
+lastNewNode will point to newly created internal node,
  waiting for it's suffix link to be set, which might get
  a new suffix link (other than root) in next extension of
  same phase. lastNewNode will be set to NULL when last
  newly created internal node (if there is any) got it's
  suffix link reset to new internal node created in next
- extension of same phase. */
+ extension of same phase. 
+ */
 Node *lastNewNode = NULL;
 Node *activeNode = NULL;
 
-/*activeEdge is represeted as input string character
- index (not the character itself)*/
+/*
+activeEdge is represeted as input string character
+index (not the character itself)
+*/
 int activeEdge = -1;
 int activeLength = 0;
 
-// remainingSuffixCount tells how many suffixes yet to
-// be added in tree
+// remainingSuffixCount tells how many suffixes yet to be added in tree
 int remainingSuffixCount = 0;
 int leafEnd = -1;
 int *rootEnd = NULL;
@@ -96,6 +106,9 @@ int walkDown(Node *currNode) {
 	return 0;
 }
 
+/*
+xxx
+ */
 void extendSuffixTree(int pos) {
 	/*Extension Rule 1, this takes care of extending all
 	 leaves created so far in tree*/
@@ -218,6 +231,9 @@ void extendSuffixTree(int pos) {
 	}
 }
 
+/*
+xxx
+ */
 void print(int i, int j) {
 	int k;
 	for (k = i; k <= j && text[k] != '#'; k++)
@@ -226,9 +242,11 @@ void print(int i, int j) {
 		printf("#");
 }
 
-//Print the suffix tree as well along with setting suffix index
-//So tree will be printed in DFS manner
-//Each edge along with it's suffix index will be printed
+/*  
+Print the suffix tree as well along with setting suffix index
+So tree will be printed in DFS manner
+Each edge along with it's suffix index will be printed 
+*/
 void setSuffixIndexByDFS(Node *n, int labelHeight) {
 	if (n == NULL)
 		return;
@@ -245,11 +263,9 @@ void setSuffixIndexByDFS(Node *n, int labelHeight) {
 			if (leaf == 1 && n->start != -1)
 				printf(" [%d]\n", n->suffixIndex);
 
-			//Current node is not a leaf as it has outgoing
-			//edges from it.
+			//Current node is not a leaf as it has outgoing edges from it.
 			leaf = 0;
-			setSuffixIndexByDFS(n->children[i],
-					labelHeight + edgeLength(n->children[i]));
+			setSuffixIndexByDFS(n->children[i], labelHeight + edgeLength(n->children[i]));
 		}
 	}
 	if (leaf == 1) {
@@ -265,6 +281,9 @@ void setSuffixIndexByDFS(Node *n, int labelHeight) {
 	}
 }
 
+/*
+xxx
+ */
 void freeSuffixTreeByPostOrder(Node *n) {
 	if (n == NULL)
 		return;
@@ -279,17 +298,19 @@ void freeSuffixTreeByPostOrder(Node *n) {
 	free(n);
 }
 
-/*Build the suffix tree and print the edge labels along with
- suffixIndex. suffixIndex for leaf edges will be >= 0 and
- for non-leaf edges will be -1*/
+/* 
+Build the suffix tree and print the edge labels along with
+suffixIndex. suffixIndex for leaf edges will be >= 0 and
+for non-leaf edges will be -1
+*/
 void buildSuffixTree() {
 	size = strlen(text);
 	int i;
 	rootEnd = (int*) malloc(sizeof(int));
 	*rootEnd = -1;
 
-	/*Root is a special node with start and end indices as -1,
-	 as it has no parent from where an edge comes to root*/
+	/* Root is a special node with start and end indices as -1,
+	 as it has no parent from where an edge comes to root */
 	root = newNode(-1, rootEnd);
 
 	activeNode = root; //First activeNode will be root
@@ -302,6 +323,9 @@ void buildSuffixTree() {
 	freeSuffixTreeByPostOrder(root);
 }
 
+/*
+xxx
+ */
 int traverseEdge(char *str, int idx, int start, int end) {
 	int k = 0;
 	//Traverse the edge with character by character matching
@@ -314,6 +338,9 @@ int traverseEdge(char *str, int idx, int start, int end) {
 	return 0;  // more characters yet to match
 }
 
+/*
+xxx
+*/
 int doTraversalToCountLeaf(Node *n) {
 	if (n == NULL)
 		return 0;
@@ -331,12 +358,18 @@ int doTraversalToCountLeaf(Node *n) {
 	return count;
 }
 
+/*
+xxx
+*/
 int countLeaf(Node *n) {
 	if (n == NULL)
 		return 0;
 	return doTraversalToCountLeaf(n);
 }
 
+/*
+xxx 
+*/
 int doTraversal(Node *n, char *str, int idx) {
 	if (n == NULL) {
 		return -1; // no match
@@ -367,6 +400,9 @@ int doTraversal(Node *n, char *str, int idx) {
 		return -1;  // no match
 }
 
+/*
+xxx 
+*/
 void checkForSubString(char *str) {
 	int res = doTraversal(root, str, 0);
 	if (res == 1)
@@ -375,7 +411,9 @@ void checkForSubString(char *str) {
 		printf("\nPattern <%s> is NOT a Substring\n", str);
 }
 
-// driver program to test above functions
+/* 
+driver program to test above functions
+*/
 int main(int argc, char *argv[]) {
 	//strcpy(text, "xabxa#babxba$"); buildSuffixTree();
 
