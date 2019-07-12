@@ -11,14 +11,14 @@ And then build generalized suffix tree
 
 /*
 xxx
- */
+*/
 struct SuffixTreeNode {
 	struct SuffixTreeNode *children[MAX_CHAR];
 
 	//pointer to other node via suffix link
 	struct SuffixTreeNode *suffixLink;
 
-	/*(start, end) interval specifies the edge, by which the
+	/* (start, end) interval specifies the edge, by which the
 	 node is connected to its parent node. Each edge will
 	 connect two nodes, one parent and one child, and
 	 (start, end) interval of a given edge will be stored
@@ -28,8 +28,8 @@ struct SuffixTreeNode {
 	int start;
 	int *end;
 
-	/*for leaf nodes, it stores the index of suffix for
-	 the path from root to leaf*/
+	/* for leaf nodes, it stores the index of suffix for
+	the path from root to leaf */
 	int suffixIndex;
 };
 
@@ -40,20 +40,17 @@ Node *root = NULL; //Pointer to root node
 
 /*
 lastNewNode will point to newly created internal node,
- waiting for it's suffix link to be set, which might get
- a new suffix link (other than root) in next extension of
- same phase. lastNewNode will be set to NULL when last
- newly created internal node (if there is any) got it's
- suffix link reset to new internal node created in next
- extension of same phase. 
- */
+waiting for it's suffix link to be set, which might get
+a new suffix link (other than root) in next extension of
+same phase. lastNewNode will be set to NULL when last
+newly created internal node (if there is any) got it's
+suffix link reset to new internal node created in next
+extension of same phase. 
+*/
 Node *lastNewNode = NULL;
 Node *activeNode = NULL;
 
-/*
-activeEdge is represeted as input string character
-index (not the character itself)
-*/
+// activeEdge is represeted as input string character index (not the character itself)
 int activeEdge = -1;
 int activeLength = 0;
 
@@ -64,6 +61,9 @@ int *rootEnd = NULL;
 int *splitEnd = NULL;
 int size = -1; //Length of input string
 
+/*
+xxx 
+*/
 Node* newNode(int start, int *end) {
 	Node *node = (Node*) malloc(sizeof(Node));
 	int i;
@@ -85,18 +85,24 @@ Node* newNode(int start, int *end) {
 	return node;
 }
 
+/*
+xxx 
+*/
 int edgeLength(Node *n) {
 	if (n == root)
 		return 0;
 	return *(n->end) - (n->start) + 1;
 }
 
+/*
+xxx 
+*/
 int walkDown(Node *currNode) {
-	/*activePoint change for walk down (APCFWD) using
+	/* activePoint change for walk down (APCFWD) using
 	 Skip/Count Trick (Trick 1). If activeLength is greater
 	 than current edge length, set next internal node as
 	 activeNode and adjust activeEdge and activeLength
-	 accordingly to represent same activePoint*/
+	 accordingly to represent same activePoint */
 	if (activeLength >= edgeLength(currNode)) {
 		activeEdge += edgeLength(currNode);
 		activeLength -= edgeLength(currNode);
@@ -233,7 +239,7 @@ void extendSuffixTree(int pos) {
 
 /*
 xxx
- */
+*/
 void print(int i, int j) {
 	int k;
 	for (k = i; k <= j && text[k] != '#'; k++)
@@ -283,7 +289,7 @@ void setSuffixIndexByDFS(Node *n, int labelHeight) {
 
 /*
 xxx
- */
+*/
 void freeSuffixTreeByPostOrder(Node *n) {
 	if (n == NULL)
 		return;
@@ -325,7 +331,7 @@ void buildSuffixTree() {
 
 /*
 xxx
- */
+*/
 int traverseEdge(char *str, int idx, int start, int end) {
 	int k = 0;
 	//Traverse the edge with character by character matching
@@ -412,24 +418,14 @@ void checkForSubString(char *str) {
 }
 
 /* 
-driver program to test above functions
+Driver program to test above functions
 */
 int main(int argc, char *argv[]) {
-	//strcpy(text, "xabxa#babxba$"); buildSuffixTree();
-
-	strcpy(text, "GEEKSFORGEEKS$");
-	buildSuffixTree();
+	strcpy(text, "xabxa#babxba$"); 
+	builDSuffixTree();
+	checkForSubString("bx");
 	
-    printf("Text: GEEKSFORGEEKS, Pattern to search: GEEKS");
-	checkForSubString("GEEKS");
-	
-    printf("\n\nText: GEEKSFORGEEKS, Pattern to search: GEEK1");
-	checkForSubString("GEEK1");
-	
-    printf("\n\nText: GEEKSFORGEEKS, Pattern to search: FOR");
-	checkForSubString("FOR");
-	
-    //Free the dynamically allocated memory
+    //Free the Dynamically allocated memory
 	freeSuffixTreeByPostOrder(root);
 
 	return 0;
