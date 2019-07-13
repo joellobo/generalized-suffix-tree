@@ -1,5 +1,5 @@
 /* 
-A C program to implement Ukkonen's Suffix Tree Construction
+Implementation of Ukkonen's Suffix Tree Construction
 And then build generalized suffix tree
 */
 
